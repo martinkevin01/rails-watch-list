@@ -1,0 +1,20 @@
+<div class="container">
+  <h1><%= @list.name %></h1>
+  <div>
+
+    <div>
+      <%@list.bookmarks.each do |bookmark|%>
+      <ul class='list-unstyled'>
+        <li><%= bookmark.comment + bookmark.movie.title %>
+        <%=link_to "Delete", bookmark_path(bookmark),
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                    class: 'btn btn-danger mx-2' %>
+        </li>
+      </ul>
+      <% end %>
+    </div>
+
+  </div>
+  <%=link_to "List", lists_path%>
+  <%=link_to "New Bookmark",  new_list_bookmark_path(@list)%>
+</div>

@@ -1,0 +1,10 @@
+<div class="container">
+<h1>Bookmark</h1>
+
+<%= simple_form_for [@list, @bookmark] do |f| %>
+  <%= f.input :comment %>
+  <%= f.association :movie %>
+   <%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>
+<%=link_to "List", list_path(@list), class: "btn btn-secondary mt-1"%>
+</div>

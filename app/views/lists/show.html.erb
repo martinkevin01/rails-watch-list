@@ -5,7 +5,11 @@
     <div>
       <%@list.bookmarks.each do |bookmark|%>
       <ul class='list-unstyled'>
-        <li><%= bookmark.comment + ": " + bookmark.movie.title %>
+        <li>
+        <%bookmark.photos.each do |photo| %>
+        <%= cl_image_tag photo.key, height: 100, width: 70, crop: :fill %>
+        <% end %>
+        <%= bookmark.comment + ": " + bookmark.movie.title %>
         <%=link_to "Delete", bookmark_path(bookmark),
                     data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
                     class: 'btn btn-danger mx-2' %>

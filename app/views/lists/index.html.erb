@@ -1,18 +1,40 @@
-<div class="container">
-<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('<%= asset_path('bg-netflix.jpg') %>')">
+<%= render "navbar" %>
+
+<div class="banner mx-3"
+  style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('<%= asset_path('bg-netflix.jpg') %>')">
   <div class="container">
     <h1>Watch List </h1>
     <p>Pas besoin de vous souvenir, creer votre liste de film ici</p>
     <%=link_to "New List", new_list_path, class: "btn btn-flat"%>
   </div>
 </div>
-
-
-<%@lists.each do |list|%>
-<ul class = 'list-unstyled'>
-<li><%=link_to list.name, list_path(list), class: 'text-decoration-none'%></li>
-</ul>
+<h2 class = 'container mt-4 text-center'>My List</h2>
+<div class="cards container mt-4">
+  <%@lists.each do |list|%>
+  <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url()">
+    <%=link_to list.name, list_path(list), class: 'text-decoration-none text-light'%>
+  </div>
 <% end %>
-<div>
 </div>
-</div>
+
+<script>
+  const apiKey = 'a398232594d334b9b1cdb9dafd2112dc';
+const imageUrl = 'https://api.themoviedb.org/3/movie/popular?api_key=' + apiKey;
+
+const cards = document.querySelectorAll('.card-category');
+
+fetch(imageUrl)
+  .then((response) => response.json())
+  .then((data) => {
+
+    const backdropImages = data.results.map((movie) => movie.backdrop_path);
+
+
+    cards.forEach((card) => {
+      const randomBackdrop = backdropImages[Math.floor(Math.random() * backdropImages.length)];
+      card.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://image.tmdb.org/t/p/original${randomBackdrop}')`;
+    });
+  })
+  .catch((error) => console.error('Error fetching background images:', error));
+
+</script>

@@ -8,33 +8,34 @@
     <%=link_to "New List", new_list_path, class: "btn btn-flat"%>
   </div>
 </div>
-<h2 class = 'container mt-4 text-center'>My List</h2>
+<h2 class='container mt-4 text-center'>My List</h2>
 <div class="cards container mt-4">
   <%@lists.each do |list|%>
   <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url()">
     <%=link_to list.name, list_path(list), class: 'text-decoration-none text-light'%>
   </div>
-<% end %>
+  <% end %>
+  <div id = 'api' class='d-none'><%= ENV['TMDB_API_KEY'] %></div>
 </div>
 
 <script>
-  const apiKey = 'a398232594d334b9b1cdb9dafd2112dc';
-const imageUrl = 'https://api.themoviedb.org/3/movie/popular?api_key=' + apiKey;
+  const tmdbKey = document.getElementById('api').innerText;
+  const imageUrl = 'https://api.themoviedb.org/3/movie/popular?api_key=' + tmdbKey;
 
-const cards = document.querySelectorAll('.card-category');
+  const cards = document.querySelectorAll('.card-category');
 
-fetch(imageUrl)
-  .then((response) => response.json())
-  .then((data) => {
+  fetch(imageUrl)
+    .then((response) => response.json())
+    .then((data) => {
 
-    const backdropImages = data.results.map((movie) => movie.backdrop_path);
+      const backdropImages = data.results.map((movie) => movie.backdrop_path);
 
 
-    cards.forEach((card) => {
-      const randomBackdrop = backdropImages[Math.floor(Math.random() * backdropImages.length)];
-      card.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://image.tmdb.org/t/p/original${randomBackdrop}')`;
-    });
-  })
-  .catch((error) => console.error('Error fetching background images:', error));
-
+      cards.forEach((card) => {
+        const randomBackdrop = backdropImages[Math.floor(Math.random() * backdropImages.length)];
+        card.style.backgroundImage =
+          `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://image.tmdb.org/t/p/original${randomBackdrop}')`;
+      });
+    })
+    .catch((error) => console.error('Error fetching background images:', error));
 </script>

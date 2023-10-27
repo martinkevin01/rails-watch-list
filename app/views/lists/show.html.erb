@@ -1,25 +1,20 @@
 <%= render "navbar" %>
 <div class="container">
-  <h1><%= @list.name %></h1>
+  <h1 class = 'mt-5 pt-4'><%= @list.name %></h1>
   <div>
 
-    <div>
-      <%@list.bookmarks.each do |bookmark|%>
-      <ul class='list-unstyled'>
-        <li>
-        <%bookmark.photos.each do |photo| %>
-        <%= cl_image_tag photo.key, height: 100, width: 70, crop: :fill %>
-        <% end %>
-        <%= bookmark.comment + ": " + bookmark.movie.title %>
-        <%=link_to "Delete", bookmark_path(bookmark),
-                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                    class: 'btn btn-danger mx-2' %>
-        </li>
-      </ul>
-      <% end %>
-    </div>
 
-  </div>
+
+<div class="cards container mt-4">
+  <% @list.bookmarks.each do |bookmark| %>
+    <% bookmark.photos.each do |photo| %>
+      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path(photo.key, crop: :fill) %>')"></div>
+    <% end %>
+  <% end %>
+</div>
+
+
+
   <%=link_to "List", root_path%>
   <%=link_to "New Bookmark",  new_list_bookmark_path(@list)%>
 </div>
